@@ -1,11 +1,11 @@
 package com.example.nome.domain.model;
 
-import java.util.Collection;
+// import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.core.GrantedAuthority;
+// import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class Usuario implements UserDetails{
+public class Usuario /*implements UserDetails*/{
     /*
      * Atributos
      */
@@ -98,7 +98,7 @@ public class Usuario implements UserDetails{
 
     /*
      * Métodos da Interface UserDetails do SpringBoot
-     */
+     
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -127,4 +127,5 @@ public class Usuario implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
+    */
 }
