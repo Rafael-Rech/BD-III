@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.nome.domain.dto.usuario.UsuarioRequestDTO;
@@ -22,6 +23,8 @@ public class UsuarioService implements ICRUDService<UsuarioRequestDTO, UsuarioRe
     private UsuarioRepository usuarioRepository;
     @Autowired
     private ModelMapper mapper;
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public List<UsuarioResponseDTO> obterTodos() {
@@ -49,7 +52,11 @@ public class UsuarioService implements ICRUDService<UsuarioRequestDTO, UsuarioRe
         }
         Usuario usuario = mapper.map(dto, Usuario.class);
         usuario.setDataCadastro(new Date());
+
         //Criptografar senha
+        String senha = bCryptPasswordEncoder.encode(usuario.getSenha());
+        usuario.setSenha(senha);
+
         usuario = usuarioRepository.save(usuario);
         return mapper.map(usuario, UsuarioResponseDTO.class);
     }
@@ -62,6 +69,7 @@ public class UsuarioService implements ICRUDService<UsuarioRequestDTO, UsuarioRe
         }
         Usuario usuario = mapper.map(dto, Usuario.class);
         usuario.setId(id);
+        usuario.setSenha(dto.getSenha());
         usuario.setDataCadastro(usuarioBanco.getDataCadastro());
         usuario.setDataInativacao(usuarioBanco.getDataInativacao());
         usuario = usuarioRepository.save(usuario);
