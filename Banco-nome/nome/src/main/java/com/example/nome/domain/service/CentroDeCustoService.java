@@ -36,6 +36,10 @@ public class CentroDeCustoService implements ICRUDService<CentroDeCustoRequestDT
         if(optCentroDeCusto.isEmpty()){
             throw new ResourceNotFoundException("Não foi possível encontrar um centro de custo com este id: " + id);
         }
+        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(usuario.getId() != optCentroDeCusto.get().getUsuario().getId()){
+            throw new ResourceNotFoundException("O centro de custo com o id " + id + " não pertence a este usuário");
+        }
         return mapper.map(optCentroDeCusto.get(), CentroDeCustoResponseDTO.class);
     }
 
@@ -54,6 +58,9 @@ public class CentroDeCustoService implements ICRUDService<CentroDeCustoRequestDT
         obterPorId(id);
         CentroDeCusto centroDeCusto = mapper.map(dto, CentroDeCusto.class);
         Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(usuario.getId() != centroDeCusto.getUsuario().getId()){
+            throw new ResourceNotFoundException("O centro de custo com o id " + id + " não pertence a este usuário");
+        }
         centroDeCusto.setUsuario(usuario);
         centroDeCusto.setId(id);
         centroDeCusto = repository.save(centroDeCusto);
@@ -63,6 +70,10 @@ public class CentroDeCustoService implements ICRUDService<CentroDeCustoRequestDT
     @Override
     public void deletar(Long id) {
         obterPorId(id);
+        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(usuario.getId() != repository.findById(id).get().getUsuario().getId()){
+            throw new ResourceNotFoundException("O centro de custo com o id " + id + " não pertence a este usuário");
+        }
         repository.deleteById(id);
     }
     
