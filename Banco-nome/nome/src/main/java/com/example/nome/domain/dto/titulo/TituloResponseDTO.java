@@ -39,8 +39,11 @@ public class TituloResponseDTO {
     public List<CentroDeCustoResponseDTO> getCentrosDeCustos() {
         return centrosDeCustos;
     }
-    public void setCentrosDeCustos(List<CentroDeCustoResponseDTO> centrosDeCustos) {
-        this.centrosDeCustos = centrosDeCustos;
+    // public void setCentrosDeCustos(List<CentroDeCustoResponseDTO> centrosDeCustos) {
+    //     this.centrosDeCustos = centrosDeCustos;
+    // }
+    public void setCentrosDeCustos(List<CentroDeCustoResponseDTO> centroDeCustos) {
+        this.centrosDeCustos = centroDeCustos;
     }
     public Double getValor() {
         return valor;
